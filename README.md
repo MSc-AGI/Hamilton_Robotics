@@ -121,7 +121,7 @@ Hamilton_Robotics/
 ├── Decks/
 │   ├── 1_HB_S_A_ws.pdf              # Deck 1: Strategic Situation Analysis (19 slides)
 │   └── 2_HB_B_D_O_ws.pdf            # Deck 2: Before Day One (13 slides)
-├── architecture/
+├── Architecture/
 │   ├── VENUS_ARCHITECTURE_COMPREHENSIVE.md     # Act 1: VENUS 6-layer foundation (30 pages)
 │   ├── GAP_ANALYSIS_VENUS_TO_CONNECTIVITY.md   # Act 2: 5 critical gaps (40 pages)
 │   ├── CONNECTIVITY_ARCHITECTURE_V3_VENUS_EXTENSION.md  # Act 3: Cloud extension design (45 pages)
