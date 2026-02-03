@@ -124,7 +124,7 @@ Hamilton_Robotics/
 ├── architecture/
 │   ├── VENUS_ARCHITECTURE_COMPREHENSIVE.md     # Act 1: VENUS 6-layer foundation (30 pages)
 │   ├── GAP_ANALYSIS_VENUS_TO_CONNECTIVITY.md   # Act 2: 5 critical gaps (40 pages)
-│   ├── CONNECTIVITY_ARCHITECTURE_V3.md         # Act 3: Cloud extension design (45 pages)
+│   ├── CONNECTIVITY_ARCHITECTURE_V3_VENUS_EXTENSION.md  # Act 3: Cloud extension design (45 pages)
 │   ├── VENUS_FINAL.mmd                         # VENUS architecture diagram
 │   ├── CONNECTIVITY_FINAL.mmd                  # Connectivity architecture diagram
 │   ├── CLOSED_LOOP_AUTOMATION.mmd              # Self-driving lab vision diagram
@@ -132,12 +132,11 @@ Hamilton_Robotics/
 │   ├── VENUS_API_ARCHITECTURE.mmd              # API & LIMS integration
 │   ├── POWER_STEPS_HIERARCHY.mmd               # Programming hierarchy
 │   └── TRILOGY_RELATIONSHIP_DIAGRAM.mmd        # Document interconnection map
-├── pictures/
+├── Pictures/
 │   ├── D1.jpg                        # Deck 1 title slide
 │   └── D2.jpg                        # Deck 2 title slide
 └── README.md                         # This file
 ```
-
 ---
 
 ## Contact
