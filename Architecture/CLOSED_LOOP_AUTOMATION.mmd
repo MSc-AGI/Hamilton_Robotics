@@ -1,0 +1,138 @@
+---
+config:
+  layout: elk
+  theme: default
+---
+%% ========================================================================
+%% Closed-Loop Automation - Hamilton's Strategic Vision
+%% ========================================================================
+%% Created: 2026-01-23
+%% Source: VENUS Software AI & LIMS webinar (Alvaro Cuevas, Software PM)
+%% Purpose: Visualize "self-driving laboratory" concept
+%% Author: Marcelo Caballero
+%% Key Quote: "The dream goal is closed-loop automation"
+%% ========================================================================
+
+flowchart TB
+    %% ==================== THE CLOSED LOOP ====================
+    subgraph LOOP["CLOSED-LOOP AUTOMATION (The Self-Driving Laboratory)"]
+        direction TB
+
+        subgraph DESIGN["1. DESIGN & PLANNING"]
+            direction LR
+            DESIGN_AI["AI Assistance<br/>Experiment design<br/>Parameter suggestions<br/>Workflow orchestration"]:::ai
+            DESIGN_LIMS["LIMS / ELN<br/>Sample management<br/>Worklist generation<br/>Protocol selection"]:::lims
+            DESIGN_USER["Scientist Input<br/>Goals, constraints<br/>Sample info<br/>Quality requirements"]:::user
+        end
+
+        subgraph EXECUTION["2. EXECUTION (VENUS Domain)"]
+            direction LR
+            EXEC_VENUS["VENUS Software<br/>Real-time control<br/>Method execution<br/>Error handling"]:::venus
+            EXEC_HARDWARE["Hamilton Hardware<br/>STAR, VANTAGE<br/>Nimbus, Prep<br/>Precision pipetting"]:::venus
+            EXEC_TADM["Telemetry Generation<br/>TADM pressure curves<br/>MAD verification<br/>Run logs, timestamps"]:::data
+        end
+
+        subgraph ANALYSIS["3. ANALYSIS & INSIGHTS"]
+            direction LR
+            ANALYSIS_AI["AI Analysis<br/>Pattern recognition<br/>Anomaly detection<br/>Predictive models"]:::ai
+            ANALYSIS_DATA["Data Organization<br/>Run results<br/>Quality metrics<br/>Trend visualization"]:::data
+            ANALYSIS_INSIGHT["Actionable Insights<br/>Optimization suggestions<br/>Failure predictions<br/>Process improvements"]:::insight
+        end
+
+        subgraph FEEDBACK["4. FEEDBACK LOOP (Connectivity Enables)"]
+            direction LR
+            FEED_OPT["Process Optimization<br/>Liquid class tuning<br/>Timing adjustments<br/>Resource allocation"]:::connectivity
+            FEED_MAINT["Predictive Maintenance<br/>Component wear alerts<br/>Schedule service<br/>Prevent failures"]:::connectivity
+            FEED_LEARN["Continuous Learning<br/>Model retraining<br/>Baseline updates<br/>Improved accuracy"]:::connectivity
+        end
+    end
+
+    %% ==================== CUSTOMER PRIORITIES ====================
+    subgraph PRIORITIES["CUSTOMER PRIORITIES (Hamilton Webinar Poll)"]
+        direction LR
+        PRI1["69%<br/>Process Optimization<br/>TOP PRIORITY"]:::priority_high
+        PRI2["56%<br/>Data Analysis"]:::priority_med
+        PRI3["48%<br/>Scripting"]:::priority_med
+        PRI4["46%<br/>Organizing Data"]:::priority_med
+    end
+
+    %% ==================== CURRENT STATE VS FUTURE ====================
+    subgraph CURRENT["CURRENT STATE (Manual Loop)"]
+        direction LR
+        CUR_DESIGN["Manual Planning<br/>Scientist decides<br/>Trial and error"]:::gap
+        CUR_EXEC["VENUS Executes<br/>Reliable, proven<br/>20+ years"]:::venus
+        CUR_ANALYZE["Manual Analysis<br/>Excel exports<br/>Hours of work"]:::gap
+        CUR_ADJUST["Manual Adjustment<br/>Scientist tweaks<br/>Repeat experiment"]:::gap
+    end
+
+    subgraph FUTURE["FUTURE STATE (AI-Assisted Loop)"]
+        direction LR
+        FUT_DESIGN["AI Suggests<br/>Optimal parameters<br/>Based on history"]:::ai
+        FUT_EXEC["VENUS Executes<br/>Rich telemetry<br/>Connectivity uploads"]:::venus
+        FUT_ANALYZE["AI Analyzes<br/>Real-time patterns<br/>Fleet learning"]:::ai
+        FUT_ADJUST["Auto-Optimize<br/>Approved changes<br/>Next run improved"]:::connectivity
+    end
+
+    %% ==================== CONNECTIVITY'S ROLE ====================
+    subgraph CONN_ROLE["CONNECTIVITY'S ROLE IN THE LOOP"]
+        direction TB
+        CONN_BRIDGE["Bridge Execution → Analysis<br/>Uploads VENUS telemetry<br/>Aggregates fleet data"]:::connectivity
+        CONN_AI["Enable AI Layer<br/>Cloud compute for ML<br/>Train on 20,000+ instruments"]:::connectivity
+        CONN_RETURN["Close the Loop<br/>Push insights back<br/>Operator approval → VENUS update"]:::connectivity
+    end
+
+    %% ==================== EXAMPLE WORKFLOW ====================
+    subgraph EXAMPLE["EXAMPLE: TADM Drift Detection"]
+        direction TB
+        EX1["1. VENUS runs assay<br/>Generates TADM data"]:::venus
+        EX2["2. Connectivity uploads<br/>Cloud aggregates"]:::connectivity
+        EX3["3. AI detects drift<br/>5% baseline increase"]:::ai
+        EX4["4. Alert generated<br/>'Suggest liquid class tune'"]:::insight
+        EX5["5. Operator approves<br/>Parameter adjusted"]:::user
+        EX6["6. Next run optimized<br/>Loop complete"]:::venus
+    end
+
+    %% ==================== DATA FLOWS ====================
+    DESIGN --> EXECUTION
+    EXECUTION --> ANALYSIS
+    ANALYSIS --> FEEDBACK
+    FEEDBACK -->|"Loop Back"| DESIGN
+
+    PRIORITIES --> LOOP
+
+    CUR_DESIGN --> CUR_EXEC --> CUR_ANALYZE --> CUR_ADJUST
+    FUT_DESIGN --> FUT_EXEC --> FUT_ANALYZE --> FUT_ADJUST
+
+    LOOP --> CONN_ROLE
+
+    EX1 --> EX2 --> EX3 --> EX4 --> EX5 --> EX6
+
+    %% ==================== LEGEND ====================
+    subgraph Legend["LEGEND"]
+        LEG_AI["AI/ML Component"]:::ai
+        LEG_LIMS["LIMS/ELN System"]:::lims
+        LEG_USER["User/Scientist"]:::user
+        LEG_VENUS["VENUS/Hardware"]:::venus
+        LEG_DATA["Data/Telemetry"]:::data
+        LEG_INSIGHT["Insight Generated"]:::insight
+        LEG_CONN["Connectivity Enables"]:::connectivity
+        LEG_GAP["Current Gap"]:::gap
+        LEG_HIGH["High Priority"]:::priority_high
+    end
+
+    %% ==================== STYLING ====================
+    classDef ai fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px,color:#000
+    classDef lims fill:#fce4ec,stroke:#e91e63,stroke-width:2px,color:#000
+    classDef user fill:#fff3e0,stroke:#ff9800,stroke-width:2px,color:#000
+    classDef venus fill:#e1f5e1,stroke:#4caf50,stroke-width:2px,color:#000
+    classDef data fill:#e3f2fd,stroke:#2196f3,stroke-width:2px,color:#000
+    classDef insight fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000
+    classDef connectivity fill:#f3e5f5,stroke:#9c27b0,stroke-width:3px,color:#000,font-weight:bold
+    classDef gap fill:#ffebee,stroke:#f44336,stroke-width:2px,stroke-dasharray:5 5,color:#000
+    classDef priority_high fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px,color:#000,font-weight:bold
+    classDef priority_med fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#000
+
+    style LOOP fill:#ffffff,stroke:#9c27b0,stroke-width:3px
+    style Legend fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style CURRENT fill:#ffebee,stroke:#f44336,stroke-width:2px
+    style FUTURE fill:#e8f5e9,stroke:#4caf50,stroke-width:2px

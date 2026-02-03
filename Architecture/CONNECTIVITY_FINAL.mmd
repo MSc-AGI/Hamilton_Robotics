@@ -1,0 +1,269 @@
+---
+config:
+  layout: elk
+  theme: default
+---
+%% ========================================================================
+%% Hamilton Connectivity: Cloud Extension Layer for VENUS
+%% ========================================================================
+%% Created: 2026-01-22
+%% Updated: 2026-01-23 (Webinar insights: closed-loop automation vision)
+%% Author: Marcelo Caballero
+%% Purpose: Define Connectivity as layer-by-layer VENUS extension
+%% Foundation: EXTENDS VENUS_FINAL.mmd (preserves local control, adds cloud intelligence)
+%% Paired with: GAP_ANALYSIS_VENUS_TO_CONNECTIVITY.md
+%% Strategic Framework: "Given VENUS limitation X, Connectivity solves Y"
+%% Hamilton Vision: "Closed-Loop Automation" - Design → VENUS Execution → Connectivity Analysis → (loop back)
+%% Key Sources: VENUS Software AI & LIMS webinar (Alvaro Cuevas, Software PM)
+%% ========================================================================
+
+flowchart TB
+    %% ==================== EXISTING FOUNDATION: VENUS ====================
+    subgraph VENUS_BASE["⚡ VENUS SOFTWARE (Existing Foundation - 20,000+ Installations)"]
+        direction TB
+        VENUS["VENUS 6.3.2<br/>Windows desktop application<br/>Real-time instrument control<br/>6-layer architecture<br/>Generates rich telemetry (TADM, MAD, DeckWatch, logs)<br/>✅ Mission-critical reliability<br/>✅ Remote monitoring (single-instrument, web-based)<br/>❌ No fleet dashboard<br/>❌ No cloud analytics<br/>❌ No predictive AI"]:::existing
+    end
+
+    %% ==================== LAYER 1: INSTRUMENT EDGE (Connectivity Agent) ====================
+    subgraph L1["🔗 LAYER 1: INSTRUMENT EDGE - The Bridge"]
+        direction TB
+
+        subgraph Agent["Connectivity Agent (Windows Service on Instrument PC)"]
+            direction LR
+            AGENT_COLLECT["Data Collector<br/>Reads VENUS logs (run data, errors)<br/>Reads TADM files (pressure curves)<br/>Reads DatabasePlus SQLite<br/>Queries VENUS REST API (real-time status)"]:::new
+            AGENT_BUFFER["Local Buffer<br/>SQLite cache (30-day retention)<br/>Offline-resilient<br/>Survives cloud outage<br/>Syncs when reconnected"]:::new
+            AGENT_POLICY["Data Policy Engine<br/>Customer controls what uploads<br/>Run logs: YES<br/>TADM data: Optional<br/>Granular privacy controls"]:::new
+        end
+
+        subgraph Integration["VENUS Integration Points"]
+            direction LR
+            VENUS_FILES["File System Access<br/>C:\\VENUS\\Logs\\*.txt<br/>C:\\VENUS\\TADM\\*.tadm<br/>C:\\VENUS\\Data\\runs.db"]:::existing
+            VENUS_API["VENUS REST API<br/>GET /status<br/>GET /runs/history<br/>POST /methods/execute (if enabled)"]:::existing
+        end
+    end
+
+    %% ==================== LAYER 2: SITE EDGE (Enterprise Multi-Instrument Aggregation) ====================
+    subgraph L2["🏢 LAYER 2: SITE EDGE - Enterprise Option"]
+        direction TB
+
+        subgraph Gateway["Site Gateway (Physical Appliance or VM)"]
+            direction TB
+            GATEWAY_CORE["Gateway Functions<br/>Multi-instrument aggregation<br/>Local preprocessing<br/>Policy enforcement (keep data on-prem)<br/>Single security boundary<br/>VPN termination"]:::new
+        end
+
+        subgraph Adapters["Protocol Adapters & Integration Layer"]
+            direction LR
+            LIMS_ADAPT["LIMS Connectors<br/>Pre-built integrations:<br/>LabWare, Benchling<br/>Thermo SampleManager<br/>LabVantage"]:::new
+            SILA["SiLA 2 Adapter<br/>Open standard (HTTP/2 + ProtoBuf)<br/>Third-party device interoperability<br/>Unifies vendor landscape"]:::new
+            API_GATEWAY["API Gateway<br/>OpenAPI spec<br/>Rate limiting<br/>Customer self-service"]:::new
+        end
+    end
+
+    %% ==================== LAYER 3: SECURITY & COMPLIANCE BOUNDARY ====================
+    subgraph L3["🔒 LAYER 3: SECURITY & COMPLIANCE"]
+        direction TB
+
+        subgraph Network["Network Security"]
+            direction LR
+            FIREWALL["Firewall/DMZ<br/>Outbound-only (ports 443/8883)<br/>No inbound connections<br/>Customer firewall compatible"]:::new
+            VPN["Secure Transport<br/>TLS 1.3<br/>mTLS certificate auth<br/>OR VPN tunnel"]:::new
+        end
+
+        subgraph AccessControl["Identity & Access Management (RBAC)"]
+            direction LR
+            ROLE_OP["Operator<br/>View status<br/>Start runs"]:::new
+            ROLE_ENG["Automation Engineer<br/>Create methods<br/>Configure devices"]:::new
+            ROLE_MGR["Lab Manager<br/>Fleet analytics<br/>Reports<br/>Compliance oversight"]:::new
+            ROLE_IT["IT Admin<br/>Security<br/>User management<br/>Audit logs"]:::new
+            ROLE_FSE["Hamilton FSE<br/>Remote diagnostics<br/>(time-limited access)"]:::new
+        end
+
+        subgraph ComplianceSec["Compliance & Audit"]
+            direction LR
+            AUDIT["Audit Trail<br/>Immutable logs<br/>Who/what/when<br/>21 CFR Part 11 compliant"]:::new
+            ENCRYPT["Encryption<br/>TLS 1.3 (transit)<br/>AES-256 (rest)<br/>Zero-trust architecture"]:::new
+            SOVEREIGNTY["Data Sovereignty<br/>EU data in EU<br/>GDPR compliant<br/>SOC 2 Type II"]:::new
+        end
+    end
+
+    %% ==================== LAYER 4: CLOUD BACKEND SERVICES ====================
+    subgraph L4["☁️ LAYER 4: CLOUD BACKEND - Hamilton SaaS Platform"]
+        direction TB
+
+        subgraph Deploy["Deployment Options (Customer Choice)"]
+            direction LR
+            DEPLOY_OFFLINE["A. Fully Offline<br/>No cloud, local only<br/>For: Air-gapped pharma labs"]:::optional
+            DEPLOY_ONPREM["B. On-Prem Hub<br/>Customer data center<br/>For: Big pharma (compliance)"]:::optional
+            DEPLOY_CLOUD["C. Hybrid Cloud ⭐<br/>Hamilton AWS/Azure<br/>For: 80% of market"]:::new
+        end
+
+        subgraph CloudInfra["Cloud Infrastructure (AWS/Azure Multi-Region)"]
+            direction TB
+            IOT_HUB["IoT Ingestion<br/>AWS IoT Core / Azure IoT Hub<br/>MQTT, WebSocket<br/>Auto-scaling to 20,000+ instruments"]:::new
+            KAFKA["Event Streaming<br/>Apache Kafka<br/>Real-time telemetry pipeline<br/>Event-driven architecture"]:::new
+            TIMESCALE["Time-Series DB<br/>TimescaleDB (PostgreSQL)<br/>Sensor data, TADM curves<br/>Hypertable compression"]:::new
+            POSTGRES["Relational DB<br/>PostgreSQL<br/>Users, instruments, methods<br/>Audit logs, fleet metadata"]:::new
+            ELASTIC["Search Index<br/>Elasticsearch<br/>Full-text run history search<br/>Audit log queries"]:::new
+            S3["Object Storage<br/>AWS S3 / Azure Blob<br/>Raw logs, method files<br/>TADM archives<br/>Long-term retention (7-10 years)"]:::new
+        end
+
+        subgraph H1["🎯 HORIZON 1 (2026 MVP): VENUS Cloud Connect - Competitive Parity"]
+            direction LR
+            H1_MONITOR["Fleet Monitoring Dashboard<br/>EXTENDS VENUS remote monitoring to fleet level<br/>Live status dashboard (ALL instruments)<br/>Run progress tracking across sites<br/>Push notifications (mobile app)<br/>WebSocket real-time updates<br/>⭐ VENUS: single-instrument → Connectivity: fleet-wide"]:::new
+            H1_METHOD["Cloud Method Library<br/>Git-based versioning<br/>Cloud storage (S3)<br/>Team collaboration<br/>Deploy to fleet<br/>⭐ Solves email/USB pain"]:::new
+            H1_HISTORY["Run History & Audit Search<br/>Full-text search (Elasticsearch)<br/>Aggregated across fleet (not per-instrument)<br/>2-10 year retention<br/>Downloadable reports<br/>GLP/GMP compliance<br/>⭐ Centralizes VENUS local logs"]:::new
+            H1_LIMS["LIMS Integration Hub<br/>Pre-built connectors (LabWare, Benchling, Thermo, LabVantage)<br/>Uses VENUS integration methods (shared folder, REST API, DB)<br/>Workflow orchestration<br/>Bidirectional data flow<br/>⭐ Cuts $200k integration → $10k/year SaaS"]:::new
+            H1_DECKWATCH["DeckWatch Cloud Archive<br/>EXTENDS VENUS DeckWatch (Venus 6.2+)<br/>Cloud video archive (S3)<br/>Long-term retention<br/>Fleet-wide search<br/>⭐ VENUS: local storage → Connectivity: cloud archive"]:::new
+        end
+
+        subgraph H2["🎯 HORIZON 2 (2027): Analytics Studio - Surpass Tecan"]
+            direction LR
+            H2_UTIL["Utilization Dashboard<br/>Fleet usage analytics<br/>Idle time optimization<br/>Cost per sample<br/>Resource allocation<br/>⭐ Addresses 69% customer need (process optimization)"]:::optional
+            H2_PERF["Performance Trending<br/>TADM curve drift (O-ring wear)<br/>MAD error rate analysis<br/>CV tracking<br/>Calibration alerts<br/>⭐ Leverages Hamilton's rich telemetry advantage"]:::optional
+            H2_ANOMALY["TADM/MAD Anomaly Detection (ML)<br/>Isolation Forest / LSTM<br/>Baseline deviation alerts<br/>Root cause hypothesis<br/>Proactive maintenance<br/>⭐ Competitive differentiation"]:::optional
+            H2_DECKWATCH_AI["DeckWatch AI Video Analysis<br/>Computer vision anomaly detection<br/>Auto-detect tip pickup failures<br/>Labware misplacement<br/>Full-text search: 'show tip failures'<br/>⭐ Unique Hamilton differentiator"]:::optional
+            H2_BENCH["Benchmarking<br/>Site vs site comparison<br/>Peer data (anonymized)<br/>Best practice identification<br/>KPI tracking<br/>⭐ Enables continuous improvement (69% customer priority)"]:::optional
+        end
+
+        subgraph H3["🎯 HORIZON 3 (2028): Predictive AI & Marketplace - The Moat"]
+            direction LR
+            H3_PRED["Predictive Maintenance AI<br/>Component failure forecast (14-21 days)<br/>O-ring, valve, motor predictions<br/>Parts inventory optimization<br/>Requires 20-year Hamilton dataset<br/>⭐ Competitors can't replicate"]:::optional
+            H3_MARKET["Workflow Marketplace<br/>'App Store for VENUS Methods'<br/>Community + Certified methods<br/>Revenue share (70/30)<br/>Network effects<br/>⭐ Ecosystem lock-in"]:::optional
+        end
+
+        subgraph MLPlatform["ML/AI Platform"]
+            direction TB
+            ML_TRAIN["Model Training<br/>AWS SageMaker / Azure ML<br/>12-24 months telemetry required<br/>Supervised learning<br/>Feature engineering (TADM curves)"]:::optional
+            ML_INFER["Real-Time Inference<br/>Microservices (Kubernetes)<br/>Anomaly detection API<br/>Predictive scoring<br/>Sub-second latency"]:::optional
+        end
+    end
+
+    %% ==================== LAYER 5: EXTERNAL INTEGRATION & ECOSYSTEM ====================
+    subgraph L5["🌐 LAYER 5: EXTERNAL INTEGRATION & ECOSYSTEM"]
+        direction TB
+
+        subgraph APIs["Hamilton Open APIs (Developer Platform)"]
+            direction LR
+            API_REST["REST API<br/>OpenAPI 3.0 spec<br/>Auto-generated SDKs<br/>(Python, Java, C#, JS)<br/>Rate limiting"]:::new
+            API_WEBHOOK["Webhooks<br/>Event-driven<br/>run_completed<br/>error_occurred<br/>maintenance_due"]:::new
+            API_PORTAL["Developer Portal<br/>Docs, sandbox<br/>API keys<br/>Code samples"]:::new
+        end
+
+        subgraph Partners["Partner Ecosystem"]
+            direction LR
+            PARTNER_LIMS["LIMS Vendors<br/>LabWare, Benchling<br/>Thermo, LabVantage<br/>Co-marketing"]:::optional
+            PARTNER_INT["System Integrators<br/>Lab automation consultants<br/>Turn-key solutions<br/>Hamilton-as-a-Service"]:::optional
+            PARTNER_ACAD["Academic Community<br/>Core facilities<br/>Method sharing<br/>Open-source contributions"]:::optional
+        end
+
+        subgraph CustomerIT["Customer IT Integration"]
+            direction LR
+            IT_AD["Active Directory<br/>LDAP / SSO<br/>Enterprise identity<br/>User authentication"]:::new
+            IT_SIEM["SIEM Integration<br/>Splunk, QRadar<br/>Security monitoring<br/>Compliance logging"]:::optional
+            IT_SNOW["ServiceNow<br/>Automated ticketing<br/>Maintenance workflows<br/>Asset management"]:::optional
+            IT_DATALAKE["Data Lake Export<br/>Snowflake, Databricks<br/>Custom analytics<br/>BI tools (Tableau, Power BI)"]:::optional
+        end
+    end
+
+    %% ==================== FORCE LAYER ORDERING WITH INVISIBLE EDGES ====================
+    VENUS_BASE ~~~ L1
+    L1 ~~~ L2
+    L2 ~~~ L3
+    L3 ~~~ L4
+    L4 ~~~ L5
+
+    %% ==================== CROSS-LAYER DATA FLOWS ====================
+
+    %% VENUS generates data
+    VENUS --> AGENT_COLLECT
+
+    %% Agent to Gateway (or direct to Cloud)
+    AGENT_COLLECT --> AGENT_BUFFER
+    AGENT_BUFFER --> AGENT_POLICY
+    AGENT_POLICY --> GATEWAY_CORE
+    AGENT_POLICY -.->|"Direct (no gateway)"| VPN
+
+    %% Gateway to Adapters
+    GATEWAY_CORE --> LIMS_ADAPT & SILA & API_GATEWAY
+
+    %% Adapters/Gateway to Security
+    LIMS_ADAPT --> FIREWALL
+    SILA --> FIREWALL
+    API_GATEWAY --> FIREWALL
+    GATEWAY_CORE --> FIREWALL
+
+    %% Security layers
+    FIREWALL --> VPN
+    ROLE_OP & ROLE_ENG & ROLE_MGR & ROLE_IT & ROLE_FSE -.->|"RBAC enforced"| VPN
+    AUDIT & ENCRYPT & SOVEREIGNTY -.->|"Compliance wraps all"| VPN
+
+    %% VPN to Cloud
+    VPN --> IOT_HUB
+
+    %% Cloud infrastructure
+    IOT_HUB --> KAFKA
+    KAFKA --> TIMESCALE & POSTGRES & ELASTIC & S3
+
+    %% Horizon 1 services (data sources)
+    TIMESCALE --> H1_MONITOR & H1_HISTORY
+    POSTGRES --> H1_METHOD & H1_LIMS
+    ELASTIC --> H1_HISTORY
+    S3 --> H1_METHOD & H1_DECKWATCH
+
+    %% Horizon 2 services (analytics)
+    TIMESCALE --> H2_UTIL & H2_PERF & H2_ANOMALY
+    POSTGRES --> H2_BENCH
+
+    %% ML platform
+    TIMESCALE --> ML_TRAIN
+    S3 --> ML_TRAIN
+    ML_TRAIN --> ML_INFER
+    ML_INFER --> H2_ANOMALY & H2_DECKWATCH_AI & H3_PRED
+
+    %% Horizon 3 services
+    ML_INFER --> H3_PRED
+    POSTGRES --> H3_MARKET
+    S3 --> H3_MARKET
+
+    %% APIs and external integration
+    H1_MONITOR & H1_METHOD & H1_HISTORY & H1_LIMS & H1_DECKWATCH --> API_REST & API_WEBHOOK
+    H2_UTIL & H2_PERF & H2_ANOMALY & H2_DECKWATCH_AI & H2_BENCH --> API_REST & API_WEBHOOK
+    H3_PRED & H3_MARKET --> API_REST & API_WEBHOOK
+
+    API_REST & API_WEBHOOK --> API_PORTAL
+
+    %% Partner ecosystem
+    API_PORTAL --> PARTNER_LIMS & PARTNER_INT & PARTNER_ACAD
+    H1_LIMS --> PARTNER_LIMS
+
+    %% Customer IT integration
+    API_REST --> IT_AD & IT_SIEM & IT_SNOW & IT_DATALAKE
+
+    %% Deployment model selection
+    DEPLOY_OFFLINE -.->|"Agent only, no cloud"| AGENT_BUFFER
+    DEPLOY_ONPREM -.->|"On-prem backend"| GATEWAY_CORE
+    DEPLOY_CLOUD -.->|"Hamilton cloud"| IOT_HUB
+
+    %% Force legend to bottom
+    L5 ~~~ Legend
+
+    %% ==================== LEGEND ====================
+    subgraph Legend["🔑 LEGEND"]
+        LEG_EXISTING["Existing VENUS Component"]:::existing
+        LEG_NEW["New Connectivity Component"]:::new
+        LEG_OPTIONAL["Optional/Future"]:::optional
+        LEG_EXISTING ~~~ LEG_NEW ~~~ LEG_OPTIONAL
+    end
+
+    %% ==================== STYLING ====================
+    classDef existing fill:#e1f5e1,stroke:#4caf50,stroke-width:2px,color:#000
+    classDef new fill:#e3f2fd,stroke:#2196f3,stroke-width:3px,color:#000,font-weight:bold
+    classDef optional fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,stroke-dasharray:5 5,color:#000
+
+    style Legend fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style VENUS_BASE fill:#ffffff,stroke:#4caf50,stroke-width:3px
+    style L1 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L2 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L3 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L4 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L5 fill:#ffffff,stroke:#666,stroke-width:2px
