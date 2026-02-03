@@ -11,47 +11,19 @@ A connectivity strategy and digital readiness assessment for<br>
 </div>
 
 -----
-
-**Author:** Marcelo Caballero, MSc AI, MBA<br> 
-**Target Role:** Product Manager Digital (Connectivity + VENUS)<br> 
-**Length:** Deck 1: 19 slides · Deck 2: 13 slides<br> 
-**Sources:** Public information only<br> 
-
 <table>
-  <thead>
-    <tr>
-      <th align="center">Deck 1: Strategic Context</th>
-      <th align="center">Deck 2: AI Deep Dive</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img src="pictures/D1.jpg" alt="Swiss Re Deck 1 Title Slide" width="400">
-        <br>
-        <a href="https://github.com/MSc-AGI/SwissRe/blob/main/Decks/Deck1_of_2.pdf">Open Deck 1 on GitHub</a> •
-        <a href="https://gitfront.io/r/MScAI/Rj96cdzazX55/SwissRe/raw/Decks/Deck1_of_2.pdf">Download PDF</a>
-      </td>
-      <td align="center">
-        <img src="pictures/Deck2_1_of_2.jpg" alt="Swiss Re Deck 2 Title Slide" width="400">
-        <br>
-        <a href="https://github.com/MSc-AGI/SwissRe/blob/main/Decks/Deck2_of_2.pdf">Open Deck 2 on GitHub</a> •
-        <a href="https://gitfront.io/r/MScAI/Rj96cdzazX55/SwissRe/raw/Decks/Deck2_of_2.pdf">Download PDF</a>
-      </td>
-    </tr>
-  </tbody>
+<tr><td><b>Author</b></td><td>Marcelo Caballero, MSc AI, MBA</td></tr>
+<tr><td><b>Scope</b></td><td>Strategic analysis, architecture reverse-engineering, product roadmap</td></tr>
+<tr><td><b>Method</b></td><td>Public sources only (webinars, documentation, press releases, forums)</td></tr>
+<tr><td><b>Output</b></td><td>120+ pages of analysis, 7 Mermaid architecture diagrams, 2 executive decks (32 slides)</td></tr>
 </table>
-
------
 
 | Deck 1: Strategic Situation Analysis | Deck 2: Before Day One |
 |:---:|:---:|
-| ![Deck 1](pictures/D1.jpg) | ![Deck 2](pictures/D2.jpg) |
-| [Open Deck 1 on GitHub](Decks/1_HB_S_A_ws.pdf) · [Download PDF](Decks/1_HB_S_A_ws.pdf?raw=true) | [Open Deck 2 on GitHub](Decks/2_HB_B_D_O_ws.pdf) · [Download PDF](Decks/2_HB_B_D_O_ws.pdf?raw=true) |
+| ![Deck 1](Pictures/D1.jpg) | ![Deck 2](Pictures/D2.jpg) |
+| [Open Deck 1](Decks/1_HB_S_A_ws.pdf) · [Download PDF](Decks/1_HB_S_A_ws.pdf?raw=true) | [Open Deck 2](Decks/2_HB_B_D_O_ws.pdf) · [Download PDF](Decks/2_HB_B_D_O_ws.pdf?raw=true) |
 
----
-
----
+-----
 
 ## The Problem
 
