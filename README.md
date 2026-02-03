@@ -62,8 +62,8 @@ The core analysis follows a three-act structure:
 ```
 ACT 1: FOUNDATION              ACT 2: TENSION                ACT 3: RESOLUTION
 ┌──────────────────┐           ┌──────────────────┐           ┌──────────────────┐
-│ VENUS Architecture│──────────▶│  Gap Analysis    │──────────▶│  Connectivity as │
-│  (What Exists)    │           │ (What's Missing) │           │  VENUS Extension │
+│VENUS Architecture│──────────▶│  Gap Analysis    │──────────▶│  Connectivity as │
+│ (What Exists)    │           │ (What's Missing) │           │  VENUS Extension │
 └──────────────────┘           └──────────────────┘           └──────────────────┘
       50KB, 30 pages                34KB, 40 pages                30KB, 45 pages
 ```
