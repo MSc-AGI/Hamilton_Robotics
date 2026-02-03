@@ -1,0 +1,148 @@
+---
+config:
+  layout: elk
+  theme: default
+---
+%% ========================================================================
+%% VENUS Power Steps Programming Hierarchy
+%% ========================================================================
+%% Created: 2026-01-23
+%% Source: VENUS Power Steps webinar (Corey Edwards, Robotics Trainer)
+%% Purpose: Show 5-level programming abstraction in VENUS
+%% Interview value: Technical understanding of user experience layers
+%% ========================================================================
+
+flowchart TB
+    %% ==================== HIERARCHY PYRAMID ====================
+    subgraph PYRAMID["VENUS PROGRAMMING HIERARCHY (5 Levels)"]
+        direction TB
+
+        subgraph L5["LEVEL 5: POWER STEPS (Easiest)"]
+            direction LR
+            PS_DESC["Wizard-Based Programming<br/>Single line = entire process<br/>Minimal training required<br/>Entry-level automation"]:::power
+            PS_USERS["Target Users<br/>New operators<br/>Lab technicians<br/>Non-programmers"]:::user
+        end
+
+        subgraph L4["LEVEL 4: SMART STEPS"]
+            direction LR
+            SM_DESC["Wizard-Based<br/>More options than Power<br/>Still guided workflow<br/>Intermediate complexity"]:::smart
+            SM_USERS["Target Users<br/>Experienced operators<br/>Some automation experience"]:::user
+        end
+
+        subgraph L3["LEVEL 3: GOLD STEPS"]
+            direction LR
+            GS_DESC["Graphical Programming<br/>Pickup included with aspirate<br/>More granular control<br/>Visual workflow builder"]:::gold
+            GS_USERS["Target Users<br/>Automation engineers<br/>Method developers"]:::user
+        end
+
+        subgraph L2["LEVEL 2: SINGLE STEPS"]
+            direction LR
+            SS_DESC["Graphical Programming<br/>Every line = single action<br/>Full control over sequence<br/>Traditional VENUS style"]:::single
+            SS_USERS["Target Users<br/>Experienced developers<br/>Complex protocols"]:::user
+        end
+
+        subgraph L1["LEVEL 1: HSL (Most Control)"]
+            direction LR
+            HSL_DESC["Hamilton Standard Language<br/>C-like scripting syntax<br/>Full programmatic control<br/>Custom error handling"]:::hsl
+            HSL_USERS["Target Users<br/>Advanced programmers<br/>Integration specialists<br/>Complex logic needs"]:::user
+        end
+    end
+
+    %% ==================== 6 POWER STEPS ====================
+    subgraph SIX_PS["THE 6 POWER STEPS (Venus 6)"]
+        direction TB
+
+        subgraph PS_ROW1["Liquid Transfer Steps"]
+            direction LR
+            PS1["Transfer Samples<br/>General liquid transfer<br/>Most flexible option<br/>Source → Destination"]:::power
+            PS2["Add Reagent<br/>Multi-dispense<br/>Automatic aliquots<br/>Master mix distribution"]:::power
+            PS3["Serial Dilution<br/>Define by factor or volume<br/>Dilution schemes<br/>Concentration series"]:::power
+        end
+
+        subgraph PS_ROW2["Sample Handling Steps"]
+            direction LR
+            PS4["Hit Picking<br/>Cherry picking<br/>Worklist-based<br/>Barcodes, positions, volumes"]:::power
+            PS5["Replicates<br/>Create copies<br/>By number, pattern<br/>Column/row layouts"]:::power
+            PS6["Load and Match<br/>NEW in Venus 6<br/>Autoload tubes<br/>Barcode matching"]:::power_new
+        end
+    end
+
+    %% ==================== POWER STEPS FEATURES ====================
+    subgraph PS_FEATURES["POWER STEPS FEATURES"]
+        direction TB
+
+        subgraph TIPS["Tip Management"]
+            direction LR
+            TIP_COUNT["Tip Counting<br/>Track next available<br/>Prompt to reload<br/>Automatic"]:::feature
+            TIP_SELECT["Tip Selection<br/>By diameter<br/>50/300/1000µL<br/>Auto-match to volume"]:::feature
+        end
+
+        subgraph ERRORS["Error Handling"]
+            direction LR
+            ERR_SIMPLE["Simplified Options<br/>Dropdown selection<br/>Visual hints<br/>Recoverable errors"]:::feature
+            ERR_AUTO["Automatic Retries<br/>Configurable count<br/>With/without tip change<br/>Smart recovery"]:::feature
+        end
+
+        subgraph REPORTS["Reporting"]
+            direction LR
+            RPT_MAP["Mapping File<br/>One-click enable<br/>Source → Destination<br/>Full traceability"]:::feature
+            RPT_LINK["Hyperlink in Trace<br/>NEW: Venus 6<br/>Click to open report<br/>Instant access"]:::feature_new
+        end
+
+        subgraph SELECTION["Sample Selection"]
+            direction LR
+            SEL_RUBBER["Rubberband Selection<br/>Click and drag<br/>Select wells visually<br/>Intuitive picking"]:::feature
+            SEL_96["Head 96 Mode<br/>96-well spacing<br/>Multi-probe head<br/>Full plate operations"]:::feature
+        end
+    end
+
+    %% ==================== MIXING LEVELS ====================
+    subgraph MIXING["MIXING STEP TYPES (Flexibility)"]
+        direction LR
+        MIX_INFO["Can Mix Different Levels<br/>Power Steps + Single Steps<br/>Power Steps + Gold Steps<br/>Power Steps + HSL<br/>Use right tool for each task"]:::feature
+    end
+
+    %% ==================== TRAINING PATH ====================
+    subgraph TRAINING["TRAINING PATH"]
+        direction LR
+        TRAIN_BASIC["Venus Basic<br/>4 days in-person<br/>3 days remote<br/>Includes Power Steps"]:::training
+        TRAIN_PS["Power Steps Focus<br/>Add Reagent + Hit Pick<br/>Included in basic<br/>Entry point"]:::training
+        TRAIN_ADV["Venus Advanced<br/>3 days remote<br/>HSL scripting<br/>Complex logic"]:::training
+    end
+
+    %% ==================== DATA FLOWS ====================
+    L5 --> L4 --> L3 --> L2 --> L1
+
+    SIX_PS --> PS_FEATURES
+    PS_FEATURES --> MIXING
+    MIXING --> TRAINING
+
+    %% ==================== LEGEND ====================
+    subgraph Legend["LEGEND"]
+        LEG_POWER["Power Steps"]:::power
+        LEG_POWER_NEW["New in Venus 6"]:::power_new
+        LEG_SMART["Smart Steps"]:::smart
+        LEG_GOLD["Gold Steps"]:::gold
+        LEG_SINGLE["Single Steps"]:::single
+        LEG_HSL["HSL Scripting"]:::hsl
+        LEG_USER["Target Users"]:::user
+        LEG_FEATURE["Feature"]:::feature
+        LEG_FEATURE_NEW["New Feature"]:::feature_new
+        LEG_TRAINING["Training"]:::training
+    end
+
+    %% ==================== STYLING ====================
+    classDef power fill:#c8e6c9,stroke:#2e7d32,stroke-width:2px,color:#000
+    classDef power_new fill:#a5d6a7,stroke:#1b5e20,stroke-width:3px,color:#000,font-weight:bold
+    classDef smart fill:#dcedc8,stroke:#558b2f,stroke-width:2px,color:#000
+    classDef gold fill:#fff9c4,stroke:#f9a825,stroke-width:2px,color:#000
+    classDef single fill:#ffe0b2,stroke:#ef6c00,stroke-width:2px,color:#000
+    classDef hsl fill:#ffccbc,stroke:#d84315,stroke-width:2px,color:#000
+    classDef user fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    classDef feature fill:#f5f5f5,stroke:#757575,stroke-width:1px,color:#000
+    classDef feature_new fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#000
+    classDef training fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+
+    style PYRAMID fill:#ffffff,stroke:#666,stroke-width:2px
+    style SIX_PS fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    style Legend fill:#f5f5f5,stroke:#666,stroke-width:1px

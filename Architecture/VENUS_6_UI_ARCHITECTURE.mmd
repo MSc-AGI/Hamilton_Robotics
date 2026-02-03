@@ -1,0 +1,123 @@
+---
+config:
+  layout: elk
+  theme: default
+---
+%% ========================================================================
+%% VENUS 6 Unified Interface Architecture
+%% ========================================================================
+%% Created: 2026-01-23
+%% Source: VENUS SW Updates webinar (Alvaro Cuevas, Software PM)
+%% Purpose: Visual reference for Venus 6 UI improvements
+%% Interview value: Shows deep product knowledge of current VENUS version
+%% ========================================================================
+
+flowchart TB
+    %% ==================== UNIFIED INTERFACE ====================
+    subgraph UNIFIED["VENUS 6 UNIFIED INTERFACE (Single Entry Point)"]
+        direction TB
+
+        subgraph HOMEPAGE["Homepage (Default View)"]
+            direction LR
+            INSTRUMENT_PIC["Instrument Picture<br/>Live status indicator<br/>Running/Idle/Error"]:::core
+            RUN_PROGRESS["Run Progress<br/>If method running<br/>Current step"]:::core
+            HISTORY_SUMMARY["Recent History<br/>Quick summary<br/>Last 5-10 runs"]:::core
+            SHORTCUTS["Custom Shortcuts<br/>User-organized groups<br/>Click to launch"]:::core
+        end
+
+        subgraph SHORTCUTS_DETAIL["Shortcut System (Customizable)"]
+            direction LR
+            SC_METHODS["Method Shortcuts<br/>Link to .med files<br/>One-click launch"]:::core
+            SC_WORKFLOWS["Workflow Shortcuts<br/>Link to executables<br/>Batch processing"]:::core
+            SC_FOLDERS["Folder Shortcuts<br/>Quick access<br/>SOPs, protocols"]:::core
+            SC_ATTACH["Attachments<br/>PDFs, videos<br/>SOPs per shortcut"]:::core
+            SC_VALIDATE["Validation Flag<br/>GLP/GMP indicator<br/>Visual badge"]:::data
+        end
+
+        subgraph RUN_CONTROL["Run Control Interface"]
+            direction LR
+            RC_PROGRESS["Progress Display<br/>% or Time remaining<br/>Toggle option"]:::core
+            RC_ACTIVITIES["Activities Panel<br/>Scheduled tasks<br/>Parallel view"]:::core
+            RC_3D["3D Deck View<br/>Rotatable<br/>Real-time state"]:::core
+            RC_SCHEDULE["Schedule View<br/>Timeline visualization<br/>Task overlap"]:::core
+        end
+
+        subgraph TRACE_VIEW["Trace & Logging"]
+            direction LR
+            TRACE_SYNTAX["Syntax Highlighting<br/>Color-coded events<br/>Error = Red"]:::core
+            TRACE_SCROLL["Auto-Scroll Toggle<br/>Pause to review<br/>Resume tracking"]:::core
+            TRACE_WIDGETS["Widget Toggles<br/>Customize display<br/>Per-user preference"]:::core
+        end
+
+        subgraph HISTORY_SECTION["Run History Management"]
+            direction LR
+            HIST_FILTER["Filter by Date<br/>Time period<br/>User selection"]:::core
+            HIST_DETAILS["Run Details<br/>User, duration<br/>Serial number"]:::core
+            HIST_DIAG["Create Diagnostics<br/>One-click export<br/>Trace + Method + Logs<br/>= ZIP file"]:::new
+            HIST_CLEANUP["Auto-Cleanup<br/>Move/delete old logs<br/>Configurable retention"]:::new
+        end
+
+        subgraph MAINTENANCE["Maintenance Section"]
+            direction LR
+            MAINT_DAILY["Daily Maintenance<br/>Launch from UI<br/>Track completion"]:::core
+            MAINT_REPORTS["Maintenance Reports<br/>PDF generation<br/>Compliance records"]:::core
+            MAINT_CONTROL["Instrument Control<br/>Initialize, Park<br/>Open door"]:::core
+        end
+
+        subgraph SUPPORT_PAGE["Support Page"]
+            direction LR
+            SUPPORT_HAM["Hamilton Contacts<br/>FSE, FAS, Sales<br/>Auto-populated"]:::core
+            SUPPORT_CUSTOM["Custom Contacts<br/>Lab manager<br/>Internal support"]:::core
+        end
+
+        subgraph SETTINGS["Settings & Preferences"]
+            direction LR
+            THEME["Theme Selection<br/>Light / Dark<br/>Per-user"]:::core
+            RETENTION["Log Retention<br/>Auto-cleanup<br/>Configure period"]:::core
+            DEPLOY["Deploy Button<br/>Multi-system<br/>One-click rollout"]:::new
+        end
+    end
+
+    %% ==================== THEME OPTIONS ====================
+    subgraph THEMES["Visual Theme Options"]
+        direction LR
+        LIGHT["Light Mode<br/>Default<br/>Standard visibility"]:::core
+        DARK["Dark Mode<br/>Reduced eye strain<br/>Lab preference"]:::core
+        USER_PREF["Per-User Setting<br/>Remembers choice<br/>Across sessions"]:::core
+    end
+
+    %% ==================== TOUCHSCREEN ====================
+    subgraph TOUCH["Touchscreen Optimization"]
+        direction LR
+        TOUCH_BTN["Large Touch Targets<br/>All buttons sized<br/>For touch input"]:::core
+        TOUCH_NAV["Touch Navigation<br/>Swipe, tap<br/>No mouse required"]:::core
+        TOUCH_TABLET["Tablet Compatible<br/>Control from tablet<br/>Walk-around operation"]:::core
+    end
+
+    %% ==================== DATA FLOWS ====================
+    HOMEPAGE --> SHORTCUTS_DETAIL
+    SHORTCUTS_DETAIL --> RUN_CONTROL
+    RUN_CONTROL --> TRACE_VIEW
+    TRACE_VIEW --> HISTORY_SECTION
+    HISTORY_SECTION --> MAINTENANCE
+    MAINTENANCE --> SUPPORT_PAGE
+    SUPPORT_PAGE --> SETTINGS
+
+    UNIFIED --> THEMES
+    UNIFIED --> TOUCH
+
+    %% ==================== LEGEND ====================
+    subgraph Legend["LEGEND"]
+        LEG_CORE["Existing Venus 6 Feature"]:::core
+        LEG_NEW["New in Venus 6"]:::new
+        LEG_DATA["Data/Compliance Feature"]:::data
+        LEG_CORE ~~~ LEG_NEW ~~~ LEG_DATA
+    end
+
+    %% ==================== STYLING ====================
+    classDef core fill:#e1f5e1,stroke:#4caf50,stroke-width:2px,color:#000
+    classDef new fill:#e3f2fd,stroke:#2196f3,stroke-width:3px,color:#000,font-weight:bold
+    classDef data fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000
+
+    style UNIFIED fill:#ffffff,stroke:#666,stroke-width:3px
+    style Legend fill:#f5f5f5,stroke:#666,stroke-width:1px

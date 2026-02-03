@@ -1,0 +1,258 @@
+---
+config:
+  layout: elk
+  theme: default
+---
+%% ========================================================================
+%% VENUS Software Architecture - Complete 6-Layer System
+%% ========================================================================
+%% Created: 2026-01-22 (FROM SCRATCH RESEARCH)
+%% Updated: 2026-01-23 (Webinar insights: DeckWatch, Remote Monitoring, LIMS methods)
+%% Purpose: Foundation understanding for Connectivity product
+%% Methodology: Reverse-engineered from Hamilton documentation, forums, technical analysis
+%% Key Sources: VENUS Software AI & LIMS webinar (Alvaro Cuevas, Software PM)
+%% Paired with: GAP_ANALYSIS_VENUS_TO_CONNECTIVITY.md and CONNECTIVITY_FINAL.mmd
+%% ========================================================================
+
+flowchart TB
+    %% ==================== LAYER 1: USER INTERFACE & AUTHORING ====================
+    subgraph L1["🎨 LAYER 1: USER INTERFACE & AUTHORING"]
+        direction TB
+
+        subgraph Authoring["Method Authoring (Dual Interface)"]
+            direction LR
+            POWERSTEPS["Power Steps<br/>Drag-and-drop workflow builder<br/>High-level liquid handling commands<br/>No programming required"]:::core
+            HSL["HSL Scripting<br/>Hamilton Standard Language<br/>C-like syntax for advanced logic<br/>Custom functions & error handling"]:::core
+            DECKEDITOR["Deck Layout Editor<br/>3D visualization & simulation<br/>Labware placement & collision detection<br/>Dry-run before physical execution"]:::core
+        end
+
+        subgraph MethodMgmt["Method Management"]
+            direction LR
+            TEMPLATES["Method Templates<br/>Save/reuse workflows<br/>Import/export .med files<br/>Manual versioning"]:::core
+            VERSIONING["Version Control<br/>⚠️ Manual file naming only<br/>No Git-like branching/merging<br/>📍 GAP: No cloud method library"]:::gap
+        end
+
+        subgraph RunUI["Run Control (Operator Interface)"]
+            direction LR
+            RUNCONTROL["Run Control UI<br/>Start/Pause/Stop<br/>Progress tracking<br/>Live deck view<br/>✨ Touch-screen support (v6.x)"]:::core
+            HISTORIC["Historic Run Data<br/>✨ New in v6.x<br/>Access previous run logs<br/>During current run"]:::core
+            DECKWATCH["DeckWatch Video System<br/>✨ New in Venus 6.2+<br/>Magnetic camera mounts<br/>Auto-record on run start/errors<br/>Privacy masking, web viewer<br/>Audit trail compliance"]:::core
+            DECKWATCH_LIMIT["DeckWatch Gaps<br/>⚠️ Local storage only<br/>📍 GAP: No cloud archive<br/>📍 GAP: No AI anomaly detection<br/>📍 GAP: Manual review (can't search for patterns)"]:::gap
+        end
+    end
+
+    %% ==================== LAYER 2: RUNTIME & ORCHESTRATION ====================
+    subgraph L2["⚙️ LAYER 2: RUNTIME & ORCHESTRATION"]
+        direction TB
+
+        subgraph Execution["Execution Engine"]
+            direction LR
+            INTERPRETER["Method Interpreter<br/>Parses HSL method file<br/>Translates high-level → hardware commands<br/>Maintains run state & variables"]:::core
+            REALTIME["Real-Time Adjustments<br/>Liquid level detection (cLLD/pLLD)<br/>Automatic retries<br/>Dynamic parameter adjustment"]:::core
+        end
+
+        subgraph Scheduler["Dynamic Scheduler (Optional Module)"]
+            direction LR
+            SCHED_ENGINE["Scheduler Engine<br/>Parallel task optimization<br/>Resource conflict resolution<br/>10-30% throughput improvement"]:::optional
+            SCHED_LIMIT["Scheduler Limitations<br/>⚠️ Per-instrument only<br/>📍 GAP: No fleet-wide optimization<br/>📍 GAP: No cross-instrument sharing"]:::gap
+        end
+
+        subgraph ErrorMgmt["Error Handling & Recovery"]
+            direction LR
+            ERROR_DETECT["Error Detection<br/>Hardware (motor stall, tip clog)<br/>Software (HSL exceptions)<br/>User (wrong labware loaded)"]:::core
+            ERROR_RECOVER["Recovery Options<br/>Retry step<br/>Skip sample<br/>Abort run<br/>Custom HSL recovery logic"]:::core
+            ERROR_LIMIT["Error Handling Gaps<br/>⚠️ No ML from past errors<br/>📍 GAP: No predictive prevention<br/>📍 GAP: Local error logs only"]:::gap
+        end
+    end
+
+    %% ==================== LAYER 3: DEVICE ABSTRACTION LAYER ====================
+    subgraph L3["🔌 LAYER 3: DEVICE ABSTRACTION LAYER"]
+        direction TB
+
+        subgraph HAL["Hardware Abstraction Layer (HAL)"]
+            direction LR
+            HAL_ENGINE["HAL Core<br/>Unified device interface<br/>Command translation<br/>Device state management<br/>Validates commands before execution"]:::core
+            HAL_MODEL["Device Models<br/>Internal hardware representation<br/>Position tracking<br/>State validation"]:::core
+        end
+
+        subgraph NativeDrivers["Hamilton Device Drivers (Native)"]
+            direction LR
+            DRV_PIP["Pipetting Systems<br/>CO-RE (Air displacement)<br/>MagPip (Linear motor, 1kHz telemetry)<br/>Fluid Motion Arm (v6.3.2+)"]:::core
+            DRV_ROBOT["Robotic Arms<br/>iSWAP (plate gripper)<br/>CO-RE Gripper (tubes)<br/>X/Y/Z motion control"]:::core
+            DRV_DECK["On-Deck Modules<br/>Hamilton Heater Shaker (HHS)<br/>Hamilton Incubator Shaker (HIS)<br/>Barcode Reader<br/>FluorEye detector"]:::core
+        end
+
+        subgraph ThirdParty["Third-Party Device Drivers (100+)"]
+            direction LR
+            TP_DEVICES["External Devices<br/>Thermo/BioTek/Tecan readers<br/>Washers, sealers, thermal cyclers<br/>Custom SDK available"]:::optional
+            TP_LIMIT["Integration Gaps<br/>⚠️ Driver quality varies (vendor-dependent)<br/>⚠️ No standard error reporting<br/>📍 GAP: Point-to-point, no unified management"]:::gap
+        end
+    end
+
+    %% ==================== LAYER 4: HARDWARE CONTROL & SENSOR DATA ====================
+    subgraph L4["🤖 LAYER 4: HARDWARE CONTROL & SENSOR TELEMETRY"]
+        direction TB
+
+        subgraph Pipetting["Pipetting Technologies"]
+            direction LR
+            CORE_TECH["CO-RE Technology<br/>Air displacement pipetting<br/>O-ring compression<br/>Tactile tip feedback<br/>Self-monitoring"]:::core
+            MAGPIP_TECH["MagPip Technology<br/>Tubular linear drive motor<br/>5x faster than CO-RE<br/>300nL - 750µL range<br/>Non-contact dispense<br/>1kHz motor telemetry"]:::core
+        end
+
+        subgraph Sensors["Critical Sensor Systems (Connectivity's Data Source)"]
+            direction LR
+            TADM["TADM Sensor<br/>Total Aspiration & Dispense Monitoring<br/>Real-time pressure curves (every pipetting step)<br/>O-ring wear/channel drift detection<br/>Forensic pipetting evidence"]:::data
+            MAD["MAD Sensor<br/>Monitored Air Displacement<br/>Clot/foam/insufficient liquid detection<br/>No physical liquid sensors needed<br/>Air pressure pattern analysis"]:::data
+            MAGPIP_TELEM["MagPip Telemetry<br/>Motor current/force/position<br/>Friction anomaly detection<br/>Lubrication prediction<br/>Sampled at 1kHz"]:::data
+            ENV["Environmental Sensors<br/>Temperature, humidity<br/>Deck position, tilt<br/>Vibration monitoring"]:::data
+        end
+
+        subgraph Motion["Robotic Motion Control"]
+            direction LR
+            AXES["Motion Axes<br/>X/Y horizontal (±0.1mm precision)<br/>Z vertical<br/>Rotation<br/>Independent channels"]:::core
+            MOTION_TELEM["Motion Telemetry<br/>Encoder position feedback<br/>Motor current (load detection)<br/>Velocity profiles<br/>Collision prevention"]:::data
+        end
+    end
+
+    %% ==================== LAYER 5: DATA INTEGRITY & COMPLIANCE ====================
+    subgraph L5["📊 LAYER 5: DATA INTEGRITY & COMPLIANCE"]
+        direction TB
+
+        subgraph RunData["Run Logs & Events"]
+            direction LR
+            LOGS["Automatic Logging<br/>Start/end timestamps<br/>Operator, method, instrument ID<br/>All parameters, errors, warnings<br/>Consumable usage tracking"]:::data
+            LOG_STORAGE["Log Storage<br/>Local file system (instrument PC)<br/>Plain text / XML format<br/>⚠️ Not centralized<br/>📍 GAP: Limited disk space, no long-term retention"]:::gap
+        end
+
+        subgraph TADM_Data["TADM Traceability Data"]
+            direction LR
+            TADM_LOGS["Pipetting Evidence<br/>Every step with pressure curve<br/>Forensic proof of execution<br/>Regulatory submission data<br/>1M+ data points per run"]:::data
+            TADM_LIMIT["TADM Limitations<br/>⚠️ Several MB per run<br/>⚠️ Local storage only<br/>📍 GAP: Not centralized/analyzed<br/>📍 GAP: No predictive insights"]:::gap
+        end
+
+        subgraph DbPlus["DatabasePlus (Optional Module)"]
+            direction LR
+            DBPLUS["DatabasePlus<br/>Centralized sample tracking<br/>Remote SQL Server (customer-hosted)<br/>Run history queries<br/>LIMS export automation"]:::optional
+            DBPLUS_LIMIT["DatabasePlus Gaps<br/>⚠️ Customer hosts SQL Server (IT burden)<br/>⚠️ Limited analytics<br/>⚠️ No dashboards/KPIs<br/>📍 GAP: Per-instrument setup"]:::gap
+        end
+
+        subgraph Compliance["21 CFR Part 11 Compliance"]
+            direction LR
+            AUDIT["Compliance Features<br/>User authentication<br/>Electronic signatures<br/>Immutable audit trail<br/>Data integrity checksums<br/>Role-based access control"]:::core
+            AUDIT_LIMIT["Compliance Gaps<br/>⚠️ Local compliance only<br/>📍 GAP: No fleet-wide audit<br/>📍 GAP: Manual compliance reports"]:::gap
+        end
+    end
+
+    %% ==================== LAYER 6: INTEGRATION & EXTERNAL CONNECTIVITY ====================
+    subgraph L6["🌐 LAYER 6: INTEGRATION & EXTERNAL CONNECTIVITY"]
+        direction TB
+
+        subgraph LIMS["LIMS Integration (3 Methods)"]
+            direction LR
+            LIMS_METHODS["Integration Methods<br/>Method 1: Shared folder (LIMS writes → VENUS reads)<br/>Method 2: REST API (Venus 6+, bidirectional)<br/>Method 3: Database (direct SQL access)<br/>Python integration via command line<br/>Programmatic start: REST API, C# API, CLI"]:::core
+            LIMS_CONNECTORS["Certified Integrations<br/>LabWare, Benchling<br/>Thermo SampleManager, LabVantage<br/>4 pre-built, rest custom<br/>API docs finalizing (Jan 2025 webinar)"]:::optional
+            LIMS_LIMIT["LIMS Integration Gaps<br/>⚠️ Most LIMS need custom connector (2-6 months)<br/>⚠️ Each customer duplicates integration effort<br/>📍 GAP: No integration marketplace/hub<br/>📍 GAP: No monitoring/debugging tools"]:::gap
+        end
+
+        subgraph Remote["Remote Monitoring (Existing Feature ✅)"]
+            direction LR
+            REMOTE_MON["Remote Monitoring<br/>✅ ALREADY AVAILABLE (webinar confirmed)<br/>Web browser access to instrument<br/>View run traces & run history<br/>Email notifications (run complete, errors)<br/>Live instrument status<br/>Per-instrument view (not fleet)"]:::core
+            REMOTE_LIMIT["Remote Monitoring Gaps<br/>⚠️ Single-instrument only (no fleet dashboard)<br/>📍 GAP: No analytics/trends across runs<br/>📍 GAP: No mobile app (web-only)<br/>📍 GAP: No predictive alerts (reactive only)<br/>📍 GAP: No AI-driven insights"]:::gap
+        end
+
+        subgraph FileInteg["File System Integration"]
+            direction LR
+            FILES["File Import/Export<br/>Methods (.med files)<br/>Run logs (CSV, XML, TXT)<br/>TADM data (proprietary format)<br/>USB/network share/email"]:::core
+            FILES_LIMIT["File System Gaps<br/>⚠️ No cloud storage<br/>⚠️ Manual sync only<br/>📍 GAP: No version conflict resolution"]:::gap
+        end
+    end
+
+    %% ==================== FORCE LAYER ORDERING WITH INVISIBLE EDGES ====================
+    L1 ~~~ L2
+    L2 ~~~ L3
+    L3 ~~~ L4
+    L4 ~~~ L5
+    L5 ~~~ L6
+
+    %% ==================== CROSS-LAYER DATA FLOWS ====================
+
+    %% Layer 1 → Layer 2
+    POWERSTEPS --> INTERPRETER
+    HSL --> INTERPRETER
+    DECKEDITOR --> RUNCONTROL
+    RUNCONTROL --> INTERPRETER
+
+    %% Layer 2 → Layer 3
+    INTERPRETER --> HAL_ENGINE
+    SCHED_ENGINE --> INTERPRETER
+    ERROR_DETECT --> ERROR_RECOVER
+    ERROR_RECOVER --> INTERPRETER
+
+    %% Layer 3 → Layer 4
+    HAL_ENGINE --> DRV_PIP & DRV_ROBOT & DRV_DECK
+    DRV_PIP --> CORE_TECH & MAGPIP_TECH
+    TP_DEVICES --> HAL_ENGINE
+
+    %% Layer 4 telemetry generation
+    CORE_TECH --> TADM & MAD
+    MAGPIP_TECH --> MAGPIP_TELEM
+    AXES --> MOTION_TELEM
+    TADM & MAD & MAGPIP_TELEM & ENV --> LOGS
+
+    %% Layer 4 → Layer 5
+    MOTION_TELEM --> LOGS
+    TADM --> TADM_LOGS
+
+    %% Layer 5 data flows
+    LOGS --> DBPLUS
+    TADM_LOGS --> DBPLUS
+    LOGS --> AUDIT
+    DBPLUS --> REST_API
+
+    %% Layer 6 external connections
+    REST_API --> LIMS_CONNECTORS
+    LOGS --> FILES
+    DBPLUS --> REMOTE_MON
+
+    %% All gaps point to Connectivity opportunity
+    VERSIONING -.-> ConnectivityGap["🆕 CONNECTIVITY<br/>FILLS THESE GAPS"]:::connectivity
+    DECKWATCH_LIMIT -.-> ConnectivityGap
+    SCHED_LIMIT -.-> ConnectivityGap
+    ERROR_LIMIT -.-> ConnectivityGap
+    TP_LIMIT -.-> ConnectivityGap
+    LOG_STORAGE -.-> ConnectivityGap
+    TADM_LIMIT -.-> ConnectivityGap
+    DBPLUS_LIMIT -.-> ConnectivityGap
+    AUDIT_LIMIT -.-> ConnectivityGap
+    LIMS_LIMIT -.-> ConnectivityGap
+    REMOTE_LIMIT -.-> ConnectivityGap
+    FILES_LIMIT -.-> ConnectivityGap
+
+    %% Force legend to bottom
+    L6 ~~~ ConnectivityGap
+    ConnectivityGap ~~~ Legend
+
+    %% ==================== LEGEND ====================
+    subgraph Legend["🔑 LEGEND"]
+        LEG_CORE["Core VENUS Component"]:::core
+        LEG_OPTIONAL["Optional Module/Add-on"]:::optional
+        LEG_DATA["Data/Telemetry Generated"]:::data
+        LEG_GAP["Gap/Limitation → Connectivity Fills"]:::gap
+        LEG_CONNECTIVITY["Connectivity Extends VENUS"]:::connectivity
+        LEG_CORE ~~~ LEG_OPTIONAL ~~~ LEG_DATA ~~~ LEG_GAP ~~~ LEG_CONNECTIVITY
+    end
+
+    %% ==================== STYLING ====================
+    classDef core fill:#e1f5e1,stroke:#4caf50,stroke-width:2px,color:#000
+    classDef optional fill:#ffffff,stroke:#999,stroke-width:2px,color:#000
+    classDef data fill:#e3f2fd,stroke:#2196f3,stroke-width:2px,color:#000
+    classDef gap fill:#ffebee,stroke:#f44336,stroke-width:2px,stroke-dasharray:5 5,color:#000
+    classDef connectivity fill:#f3e5f5,stroke:#9c27b0,stroke-width:4px,color:#000,font-weight:bold
+
+    style Legend fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style L1 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L2 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L3 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L4 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L5 fill:#ffffff,stroke:#666,stroke-width:2px
+    style L6 fill:#ffffff,stroke:#666,stroke-width:2px
